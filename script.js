@@ -1,620 +1,483 @@
-:root {
-    --bg-deep: #0a0f0a;
-    --bg-base: #0d1a0d;
-    --bg-elevated: #132413;
-    --card-bg: #1a2f1a;
-    --card-border: #2d4a2d;
-    --fg: #e8f0e8;
-    --fg-muted: #7a9a7a;
-    --accent-lime: #84cc16;
-    --accent-emerald: #10b981;
-    --accent-forest: #22863a;
-    --accent-glow: rgba(132, 204, 22, 0.25);
-    --shadow-green: rgba(34, 134, 58, 0.3);
-    --soil-dark: #1a1208;
-    --soil-light: #2d2010;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'Source Sans 3', sans-serif;
-    background: var(--bg-deep);
-    color: var(--fg);
-    min-height: 100vh;
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* Background */
-.bg-gradient {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: 
-        radial-gradient(ellipse 100% 70% at 50% 100%, rgba(34, 134, 58, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 80% 30%, rgba(132, 204, 22, 0.06) 0%, transparent 50%),
-        linear-gradient(180deg, var(--bg-deep) 0%, var(--soil-dark) 100%);
-}
-
-.bg-pattern {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.04;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='2' fill='%2322863a'/%3E%3Ccircle cx='10' cy='10' r='1' fill='%2384cc16'/%3E%3Ccircle cx='70' cy='70' r='1' fill='%2310b981'/%3E%3C/svg%3E");
-}
-
-/* Modal */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    background: rgba(10, 15, 10, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    opacity: 1;
-    visibility: visible;
-    transition: all 0.4s ease;
-}
-
-.modal-overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.modal {
-    background: var(--bg-elevated);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 2.5rem;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 0 60px var(--shadow-green);
-}
-
-.modal-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, var(--accent-forest), var(--accent-emerald));
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-icon svg {
-    width: 36px;
-    height: 36px;
-    color: var(--fg);
-}
-
-.modal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--fg);
-    margin-bottom: 0.5rem;
-}
-
-.modal-text {
-    color: var(--fg-muted);
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-}
-
-.modal-input {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    background: var(--bg-base);
-    border: 2px solid var(--card-border);
-    border-radius: 12px;
-    color: var(--fg);
-    font-size: 1rem;
-    font-family: inherit;
-    margin-bottom: 1rem;
-    transition: all 0.3s ease;
-}
-
-.modal-input:focus {
-    outline: none;
-    border-color: var(--accent-lime);
-    box-shadow: 0 0 0 4px var(--accent-glow);
-}
-
-.modal-btn {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, var(--accent-lime), var(--accent-emerald));
-    border: none;
-    border-radius: 12px;
-    color: var(--bg-deep);
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.modal-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px var(--shadow-green);
-}
-
-/* Alert */
-.alert-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1100;
-    background: rgba(10, 15, 10, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.alert-overlay.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.alert-box {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 320px;
-    width: 100%;
-    text-align: center;
-}
-
-.alert-icon {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 1rem;
-    background: rgba(251, 191, 36, 0.15);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.alert-icon svg {
-    width: 24px;
-    height: 24px;
-    color: #fbbf24;
-}
-
-.alert-text {
-    color: var(--fg);
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.alert-btn {
-    padding: 0.75rem 2rem;
-    background: var(--bg-elevated);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    color: var(--fg);
-    font-size: 0.9rem;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.alert-btn:hover {
-    background: var(--card-bg);
-}
-
-/* Container */
-.container {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-}
-
-/* Header */
-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    padding-top: 1.5rem;
-}
-
-h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 7vw, 3.5rem);
-    font-weight: 700;
-    color: var(--fg);
-    letter-spacing: -0.02em;
-}
-
-.garden-subtitle {
-    font-size: 1.2rem;
-    color: var(--fg-muted);
-    margin-top: 0.5rem;
-}
-
-.garden-subtitle span {
-    color: var(--accent-lime);
-    font-weight: 600;
-}
-
-/* Input Section */
-.input-section {
-    background: var(--bg-elevated);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.input-wrapper {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.input-wrapper input {
-    flex: 1;
-    min-width: 200px;
-    padding: 0.875rem 1rem;
-    background: var(--bg-base);
-    border: 2px solid var(--card-border);
-    border-radius: 10px;
-    color: var(--fg);
-    font-size: 1rem;
-    font-family: inherit;
-    transition: all 0.3s ease;
-}
-
-.input-wrapper input::placeholder {
-    color: var(--fg-muted);
-}
-
-.input-wrapper input:focus {
-    outline: none;
-    border-color: var(--accent-lime);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-}
-
-.btn-add {
-    padding: 0.875rem 1.5rem;
-    background: linear-gradient(135deg, var(--accent-forest), var(--accent-emerald));
-    border: none;
-    border-radius: 10px;
-    color: var(--fg);
-    font-size: 0.95rem;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-add:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--shadow-green);
-}
-
-.btn-add:focus-visible {
-    outline: 2px solid var(--accent-lime);
-    outline-offset: 2px;
-}
-
-/* Stats */
-.stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-
-.stat {
-    text-align: center;
-    padding: 1rem 1.25rem;
-    background: var(--bg-elevated);
-    border-radius: 12px;
-    border: 1px solid var(--card-border);
-    min-width: 100px;
-}
-
-.stat-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--accent-lime);
-}
-
-.stat-label {
-    font-size: 0.8rem;
-    color: var(--fg-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-/* Habits Section */
-.habits-section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.25rem;
-    color: var(--fg);
-}
-
-.habits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.25rem;
-}
-
-/* Habit Card */
-.habit-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 1.25rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.habit-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-forest), var(--accent-lime));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.habit-card:hover::before {
-    opacity: 1;
-}
-
-.habit-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--shadow-green);
-}
-
-.habit-card.consolidated {
-    border-color: var(--accent-lime);
-    box-shadow: 0 0 40px var(--accent-glow);
-}
-
-.habit-card.consolidated::before {
-    opacity: 1;
-    background: linear-gradient(90deg, #fbbf24, var(--accent-lime));
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.habit-name {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--fg);
-    word-break: break-word;
-    padding-right: 0.5rem;
-}
-
-.btn-delete {
-    width: 28px;
-    height: 28px;
-    border: none;
-    background: rgba(239, 68, 68, 0.1);
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.btn-delete:hover {
-    background: rgba(239, 68, 68, 0.2);
-}
-
-.btn-delete svg {
-    width: 14px;
-    height: 14px;
-    color: #ef4444;
-}
-
-/* Plant Display */
-.plant-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 1rem 0;
-}
-
-.plant-emoji {
-    font-size: 3.5rem;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
-    transition: transform 0.1s ease;
-}
-
-.plant-emoji.growing {
-    animation: plantGrow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes plantGrow {
-    0% { transform: scale(1) rotate(0deg); }
-    30% { transform: scale(1.25) rotate(-5deg); }
-    50% { transform: scale(1.15) rotate(5deg); }
-    70% { transform: scale(1.1) rotate(-3deg); }
-    100% { transform: scale(1) rotate(0deg); }
-}
-
-.pot {
-    width: 70px;
-    height: 40px;
-    background: linear-gradient(180deg, var(--soil-light) 0%, var(--soil-dark) 100%);
-    border-radius: 0 0 16px 16px;
-    position: relative;
-    box-shadow: inset 0 -8px 16px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.pot::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: -4px;
-    right: -4px;
-    height: 10px;
-    background: linear-gradient(180deg, #4a3520, var(--soil-light));
-    border-radius: 3px;
-}
-
-/* Progress */
-.progress-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-}
-
-.days-count {
-    color: var(--fg-muted);
-}
-
-.stage-name {
-    color: var(--accent-lime);
-    font-weight: 500;
-}
-
-.progress-bar {
-    height: 5px;
-    background: var(--bg-base);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-emerald), var(--accent-lime));
-    border-radius: 3px;
-    transition: width 0.5s ease;
-}
-
-/* Water Button */
-.btn-water {
-    width: 100%;
-    padding: 0.75rem;
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-forest));
-    border: none;
-    border-radius: 10px;
-    color: var(--fg);
-    font-size: 0.9rem;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.btn-water:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--shadow-green);
-}
-
-.btn-water:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: var(--bg-elevated);
-}
-
-.btn-water svg {
-    width: 18px;
-    height: 18px;
-}
-
-.watered-today {
-    font-size: 0.75rem;
-    color: var(--fg-muted);
-    text-align: center;
-    margin-top: 0.5rem;
-    font-style: italic;
-}
-
-/* Empty State */
-.empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem 2rem;
-    background: var(--bg-elevated);
-    border: 2px dashed var(--card-border);
-    border-radius: 16px;
-}
-
-.empty-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.6;
-}
-
-.empty-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.empty-text {
-    color: var(--fg-muted);
-    font-size: 0.95rem;
-}
-
-/* Export Section */
-.export-section {
-    margin-top: 2.5rem;
-    text-align: center;
-}
-
-.btn-export {
-    padding: 1rem 2rem;
-    background: var(--bg-elevated);
-    border: 2px solid var(--card-border);
-    border-radius: 12px;
-    color: var(--fg);
-    font-size: 1rem;
-    font-weight: 500;
-    font-family:
+// Plant stages configuration
+const STAGES = [
+    { emoji: '', name: 'tierra', threshold: 0 },
+    { emoji: '\u{1F331}', name: 'brote', threshold: 1 },
+    { emoji: '\u{1F33F}', name: 'planta', threshold: 5 },
+    { emoji: '\u{1F333}', name: 'arbol', threshold: 10 }
+];
+
+// State
+let habits = [];
+
+// DOM Elements
+const habitInput = document.getElementById('habitInput');
+const addBtn = document.getElementById('addBtn');
+const habitsGrid = document.getElementById('habitsGrid');
+const totalHabitsEl = document.getElementById('totalHabits');
+const totalWatersEl = document.getElementById('totalWaters');
+const totalTreesEl = document.getElementById('totalTrees');
+
+// Initialize
+function init() {
+    loadHabits();
+    renderHabits();
+    updateStats();
+    setupEventListeners();
+}
+
+// LocalStorage
+function loadHabits() {
+    const stored = localStorage.getItem('gardenHabits');
+    if (stored) {
+        try {
+            habits = JSON.parse(stored);
+        } catch (e) {
+            habits = [];
+        }
+    }
+}
+
+function saveHabits() {
+    localStorage.setItem('gardenHabits', JSON.stringify(habits));
+}
+
+// Get current stage based on water count
+function getStage(waterCount) {
+    let currentStage = STAGES[0];
+    let nextStage = STAGES[1];
+
+    for (let i = STAGES.length - 1; i >= 0; i--) {
+        if (waterCount >= STAGES[i].threshold) {
+            currentStage = STAGES[i];
+            nextStage = STAGES[i + 1] || STAGES[i];
+            break;
+        }
+    }
+
+    return { currentStage, nextStage };
+}
+
+// Calculate progress percentage
+function getProgress(waterCount) {
+    const { currentStage, nextStage } = getStage(waterCount);
+
+    if (currentStage.threshold === nextStage.threshold) {
+        return 100;
+    }
+
+    const progress = ((waterCount - currentStage.threshold) / (nextStage.threshold - currentStage.threshold)) * 100;
+    return Math.min(Math.max(progress, 0), 100);
+}
+
+// Create habit card HTML
+function createHabitCard(habit, animate = false) {
+    const { currentStage, nextStage } = getStage(habit.waterCount);
+    const progress = getProgress(habit.waterCount);
+    const isMaxStage = currentStage.threshold === nextStage.threshold;
+
+    const card = document.createElement('article');
+    card.className = `habit-card${animate ? ' card-enter' : ''}`;
+    card.dataset.id = habit.id;
+    card.setAttribute('role', 'listitem');
+
+    card.innerHTML = `
+        <div class="card-header">
+            <h3 class="habit-name">${escapeHtml(habit.name)}</h3>
+            <button class="btn-delete" aria-label="Eliminar habito ${escapeHtml(habit.name)}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="plant-container">
+            <div class="plant-display" data-water-count="${habit.waterCount}">
+                ${currentStage.emoji}
+            </div>
+            <div class="pot"></div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="water-count">${habit.waterCount} riegos</span>
+                <span class="next-stage">
+                    ${isMaxStage ? 'Maximo alcanzado' : `${nextStage.name} en ${nextStage.threshold - habit.waterCount}`}
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${progress}%"></div>
+            </div>
+        </div>
+
+        <button class="btn-water" aria-label="Regar ${escapeHtml(habit.name)}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+            </svg>
+            Regar
+        </button>
+    `;
+
+    return card;
+}
+
+// Render all habits
+function renderHabits() {
+    habitsGrid.innerHTML = '';
+
+    if (habits.length === 0) {
+        habitsGrid.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon"></div>
+                <h3 class="empty-title">Tu jardin esta vacio</h3>
+                <p class="empty-text">Planta tu primer habito para comenzar a cultivar</p>
+            </div>
+        `;
+        return;
+    }
+
+    habits.forEach(habit => {
+        const card = createHabitCard(habit);
+        habitsGrid.appendChild(card);
+    });
+}
+
+// Add new habit
+function addHabit(name) {
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+
+    const habit = {
+        id: Date.now().toString(),
+        name: trimmedName,
+        waterCount: 0,
+        createdAt: new Date().toISOString()
+    };
+
+    habits.unshift(habit);
+    saveHabits();
+
+    // Add card with animation
+    const emptyState = habitsGrid.querySelector('.empty-state');
+    if (emptyState) {
+        habitsGrid.innerHTML = '';
+    }
+
+    const card = createHabitCard(habit, true);
+    habitsGrid.insertBefore(card, habitsGrid.firstChild);
+
+    updateStats();
+    habitInput.value = '';
+}
+
+// Water habit
+function waterHabit(id) {
+    const habit = habits.find(h => h.id === id);
+    if (!habit) return;
+
+    const oldStage = getStage(habit.waterCount).currentStage;
+    habit.waterCount++;
+    saveHabits();
+
+    const newStage = getStage(habit.waterCount).currentStage;
+    const card = habitsGrid.querySelector(`[data-id="${id}"]`);
+
+    if (card) {
+        // Update plant display
+        const plantDisplay = card.querySelector('.plant-display');
+        plantDisplay.textContent = newStage.emoji;
+        plantDisplay.dataset.waterCount = habit.waterCount;
+
+        // Animate if stage changed
+        if (oldStage.threshold !== newStage.threshold) {
+            plantDisplay.classList.add('growing');
+            setTimeout(() => {
+                plantDisplay.classList.remove('growing');
+            }, 600);
+        }
+
+        // Update progress
+        const { nextStage } = getStage(habit.waterCount);
+        const progress = getProgress(habit.waterCount);
+        const isMaxStage = newStage.threshold === nextStage.threshold;
+
+        card.querySelector('.water-count').textContent = `${habit.waterCount} riegos`;
+        card.querySelector('.next-stage').textContent = isMaxStage 
+            ? 'Maximo alcanzado' 
+            : `${nextStage.name} en ${nextStage.threshold - habit.waterCount}`;
+        card.querySelector('.progress-fill').style.width = `${progress}%`;
+
+        // Create water drop animation
+        createWaterDrop(card);
+    }
+
+    updateStats();
+}
+
+// Delete habit
+function deleteHabit(id) {
+    habits = habits.filter(h => h.id !== id);
+    saveHabits();
+
+    const card = habitsGrid.querySelector(`[data-id="${id}"]`);
+    if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            card.remove();
+            if (habits.length === 0) {
+                renderHabits();
+            }
+        }, 300);
+    }
+
+    updateStats();
+}
+
+// Create water drop animation
+function createWaterDrop(card) {
+    const btn = card.querySelector('.btn-water');
+    const rect = btn.getBoundingClientRect();
+
+    const drop = document.createElement('div');
+    drop.className = 'water-drop';
+    drop.innerHTML = '\u{1F4A7}';
+    drop.style.cssText = `
+        left: ${rect.left + rect.width / 2 - 10}px;
+        top: ${rect.top - 30}px;
+        font-size: 20px;
+    `;
+
+    document.body.appendChild(drop);
+
+    setTimeout(() => {
+        drop.remove();
+    }, 800);
+}
+
+// Update stats
+function updateStats() {
+    const totalWaters = habits.reduce((sum, h) => sum + h.waterCount, 0);
+    const totalTrees = habits.filter(h => h.waterCount >= 10).length;
+
+    totalHabitsEl.textContent = habits.length;
+    totalWatersEl.textContent = totalWaters;
+    totalTreesEl.textContent = totalTrees;
+}
+
+// Escape HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Event listeners
+function setupEventListeners() {
+    // Add habit
+    addBtn.addEventListener('click', () => {
+        addHabit(habitInput.value);
+    });
+
+    habitInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addHabit(habitInput.value);
+        }
+    });
+
+    // Water and delete (event delegation)
+    habitsGrid.addEventListener('click', (e) => {
+        const card = e.target.closest('.habit-card');
+        if (!card) return;
+
+        const id = card.dataset.id;
+
+        if (e.target.closest('.btn-water')) {
+            waterHabit(id);
+        } else if (e.target.closest('.btn-delete')) {
+            deleteHabit(id);
+        }
+    });
+}
+
+// Initialize app
+// Stages configuration (28 days)
+const STAGES = [
+    { threshold: 0, emoji: '🟤', name: 'Tierra' },
+    { threshold: 1, emoji: '🌱', name: 'Brote' },
+    { threshold: 8, emoji: '🌿', name: 'Planta' },
+    { threshold: 15, emoji: '🌳', name: 'Creciendo' },
+    { threshold: 22, emoji: '🌳✨', name: 'Frutos' },
+    { threshold: 28, emoji: '🏆', name: 'Consolidado' }
+];
+
+// State
+let userName = '';
+let habits = [];
+
+// DOM Elements
+const nameModal = document.getElementById('nameModal');
+const nameInput = document.getElementById('nameInput');
+const saveNameBtn = document.getElementById('saveNameBtn');
+const alertModal = document.getElementById('alertModal');
+const alertText = document.getElementById('alertText');
+const alertBtn = document.getElementById('alertBtn');
+const userNameDisplay = document.getElementById('userNameDisplay');
+const habitInput = document.getElementById('habitInput');
+const addBtn = document.getElementById('addBtn');
+const habitsGrid = document.getElementById('habitsGrid');
+const totalHabitsEl = document.getElementById('totalHabits');
+const totalDaysEl = document.getElementById('totalDays');
+const totalConsolidatedEl = document.getElementById('totalConsolidated');
+const exportBtn = document.getElementById('exportBtn');
+
+// Initialize
+function init() {
+    loadData();
+    
+    if (!userName) {
+        showNameModal();
+    } else {
+        userNameDisplay.textContent = userName;
+    }
+    
+    renderHabits();
+    updateStats();
+    setupEventListeners();
+}
+
+// Load data from localStorage
+function loadData() {
+    userName = localStorage.getItem('gardenUserName') || '';
+    
+    const storedHabits = localStorage.getItem('gardenHabits');
+    if (storedHabits) {
+        try {
+            habits = JSON.parse(storedHabits);
+        } catch (e) {
+            habits = [];
+        }
+    }
+}
+
+// Save data to localStorage
+function saveData() {
+    localStorage.setItem('gardenUserName', userName);
+    localStorage.setItem('gardenHabits', JSON.stringify(habits));
+}
+
+// Get today's date string (YYYY-MM-DD)
+function getTodayString() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+}
+
+// Get stage based on days
+function getStage(days) {
+    let currentStage = STAGES[0];
+    let nextStage = STAGES[1];
+    
+    for (let i = STAGES.length - 1; i >= 0; i--) {
+        if (days >= STAGES[i].threshold) {
+            currentStage = STAGES[i];
+            nextStage = STAGES[i + 1] || STAGES[i];
+            break;
+        }
+    }
+    
+    return { currentStage, nextStage };
+}
+
+// Calculate progress percentage
+function getProgress(days) {
+    const { currentStage, nextStage } = getStage(days);
+    
+    if (currentStage.threshold === nextStage.threshold) {
+        return 100;
+    }
+    
+    const progress = ((days - currentStage.threshold) / (nextStage.threshold - currentStage.threshold)) * 100;
+    return Math.min(Math.max(progress, 0), 100);
+}
+
+// Show name modal
+function showNameModal() {
+    nameModal.classList.remove('hidden');
+    nameInput.focus();
+}
+
+// Hide name modal
+function hideNameModal() {
+    nameModal.classList.add('hidden');
+}
+
+// Show alert
+function showAlert(message) {
+    alertText.textContent = message;
+    alertModal.classList.add('visible');
+}
+
+// Hide alert
+function hideAlert() {
+    alertModal.classList.remove('visible');
+}
+
+// Create habit card
+function createHabitCard(habit, animate = false) {
+    const { currentStage, nextStage } = getStage(habit.days);
+    const progress = getProgress(habit.days);
+    const isMaxStage = currentStage.threshold === nextStage.threshold;
+    const isConsolidated = habit.days >= 28;
+    const canWater = habit.lastWatered !== getTodayString();
+    
+    const card = document.createElement('article');
+    card.className = `habit-card${isConsolidated ? ' consolidated' : ''}${animate ? ' card-enter' : ''}`;
+    card.dataset.id = habit.id;
+    
+    card.innerHTML = `
+        <div class="card-header">
+            <h3 class="habit-name">${escapeHtml(habit.name)}</h3>
+            <button class="btn-delete" aria-label="Eliminar hábito">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="plant-container">
+            <div class="plant-emoji">${currentStage.emoji}</div>
+            <div class="pot"></div>
+        </div>
+        
+        <div class="progress-info">
+            <span class="days-count">${habit.days} días</span>
+            <span class="stage-name">${currentStage.name}</span>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progress}%"></div>
+        </div>
+        
+        ${isConsolidated 
+            ? `<button class="btn-water" disabled>Hábito Consolidado</button>`
+            : canWater 
+                ? `<button class="btn-water">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+                    </svg>
+                    Regar
+                   </button>`
+                : `<button class="btn-water" disabled>Ya regaste hoy</button>
+                   <p class="watered-today">Vuelve mañana para seguir cultivando</p>`
+        }
+    `;
+    
+    return card;
+}
+
+// Render all habits
+function renderHabits() {
+    habitsGrid.innerHTML = '';
+    
+    if (habits.length === 0) {
