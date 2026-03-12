@@ -1,2 +1,2 @@
-# jard-n-habitos
+# jardin-habitos
 Jardin 
