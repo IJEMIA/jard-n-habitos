@@ -3,81 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garden of Habits</title>
+    <title>El Jardín</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="bg-atmosphere"></div>
+    <!-- Name Modal -->
+    <div class="modal-overlay" id="nameModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22V8"/>
+                    <path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
+                    <path d="M12 8a5 5 0 0 0 0 6"/>
+                    <path d="M12 8a5 5 0 0 1 0 6"/>
+                </svg>
+            </div>
+            <h2 class="modal-title">Bienvenido a El Jardín</h2>
+            <p class="modal-text">¿Cuál es tu nombre?</p>
+            <input type="text" id="nameInput" class="modal-input" placeholder="Escribe tu nombre..." maxlength="30">
+            <button class="modal-btn" id="saveNameBtn">Comenzar</button>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div class="alert-overlay" id="alertModal">
+        <div class="alert-box">
+            <div class="alert-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+            </div>
+            <p class="alert-text" id="alertText"></p>
+            <button class="alert-btn" id="alertBtn">Entendido</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="bg-gradient"></div>
     <div class="bg-pattern"></div>
 
     <div class="container">
         <header class="fade-in">
-            <div class="logo">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22V8"/>
-                        <path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
-                        <path d="M12 8a5 5 0 0 0 0 6"/>
-                        <path d="M12 8a5 5 0 0 1 0 6"/>
-                    </svg>
-                </div>
-            </div>
-            <h1>Garden of Habits</h1>
-            <p class="subtitle">Cultiva tus habitos, crece con ellos</p>
+            <h1>El Jardín</h1>
+            <p class="garden-subtitle">Jardín de <span id="userNameDisplay">...</span></p>
         </header>
 
-        <section class="input-section fade-in fade-in-delay-1" aria-label="Agregar nuevo habito">
+        <section class="input-section fade-in fade-in-delay-1">
             <div class="input-wrapper">
-                <div class="input-field">
-                    <input 
-                        type="text" 
-                        id="habitInput" 
-                        placeholder="Escribe un nuevo habito..." 
-                        aria-label="Nombre del habito"
-                        maxlength="50"
-                    >
-                </div>
-                <button class="btn-add" id="addBtn" aria-label="Agregar habito">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <input 
+                    type="text" 
+                    id="habitInput" 
+                    placeholder="Nuevo hábito para cultivar..." 
+                    maxlength="50"
+                >
+                <button class="btn-add" id="addBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <line x1="12" y1="5" x2="12" y2="19"/>
                         <line x1="5" y1="12" x2="19" y2="12"/>
                     </svg>
-                    Plantar semilla
+                    Plantar
                 </button>
             </div>
         </section>
 
-        <div class="stats-bar fade-in fade-in-delay-2" id="statsBar">
+        <div class="stats-bar fade-in fade-in-delay-2">
             <div class="stat">
                 <div class="stat-value" id="totalHabits">0</div>
-                <div class="stat-label">Habitos</div>
+                <div class="stat-label">Hábitos</div>
             </div>
             <div class="stat">
-                <div class="stat-value" id="totalWaters">0</div>
-                <div class="stat-label">Riegos</div>
+                <div class="stat-value" id="totalDays">0</div>
+                <div class="stat-label">Días totales</div>
             </div>
             <div class="stat">
-                <div class="stat-value" id="totalTrees">0</div>
-                <div class="stat-label">Arboles</div>
+                <div class="stat-value" id="totalConsolidated">0</div>
+                <div class="stat-label">Consolidados</div>
             </div>
         </div>
 
         <section class="habits-section fade-in fade-in-delay-3">
-            <h2>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 22V12a10 10 0 0 1 20 0v10"/>
-                    <path d="M12 22V8"/>
-                    <path d="M2 12a10 10 0 0 1 10 0"/>
-                    <path d="M22 12a10 10 0 0 0-10 0"/>
+            <h2>Tu Cultivo</h2>
+            <div class="habits-grid" id="habitsGrid"></div>
+        </section>
+
+        <section class="export-section fade-in fade-in-delay-4">
+            <button class="btn-export" id="exportBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <line x1="9" y1="15" x2="12" y2="18"/>
+                    <line x1="15" y1="15" x2="12" y2="18"/>
                 </svg>
-                Tu jardin
-            </h2>
-            <div class="habits-grid" id="habitsGrid" role="list" aria-label="Lista de habitos">
+                Exportar Mi Progreso
+            </button>
+        </section>
+
+        <section class="legend fade-in fade-in-delay-4">
+            <h3>Guía de Crecimiento</h3>
+            <div class="legend-grid">
+                <div class="legend-item"><span class="legend-emoji">🟤</span> Tierra (0 días)</div>
+                <div class="legend-item"><span class="legend-emoji">🌱</span> Brote (1-7 días)</div>
+                <div class="legend-item"><span class="legend-emoji">🌿</span> Planta (8-14 días)</div>
+                <div class="legend-item"><span class="legend-emoji">🌳</span> Árbol (15-21 días)</div>
+                <div class="legend-item"><span class="legend-emoji">🌳✨</span> Frutos (22-27 días)</div>
+                <div class="legend-item"><span class="legend-emoji">🏆</span> Consolidado (28 días)</div>
             </div>
         </section>
+    </div>
+
+    <!-- PDF Template (hidden) -->
+    <div id="pdfTemplate" class="pdf-template">
+        <h1 id="pdfTitle"></h1>
+        <p class="pdf-date" id="pdfDate"></p>
+        <table id="pdfTable">
+            <thead>
+                <tr>
+                    <th>Hábito</th>
+                    <th>Días</th>
+                    <th>Etapa</th>
+                </tr>
+            </thead>
+            <tbody id="pdfTableBody"></tbody>
+        </table>
     </div>
 
     <script src="script.js"></script>
